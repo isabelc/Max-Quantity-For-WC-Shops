@@ -21,6 +21,11 @@ This works for guest buyers, as well as logged-in buyers.
 
 To set the number, go to your WordPress dashboard. Go to WooCommerce -> Settings -> Inventory tab. Scroll down to "Maximum Quantity Limit Per Product". Set your desired limit there.
 
+For more info, see the [FAQ](http://wordpress.org/plugins/woocommerce-max-quantity/faq/) and the [plugin web page](http://isabelcastillo.com/downloads/woocommerce-max-quantity-plugin).
+
+For support, please use the [Support forum](http://wordpress.org/support/plugin/woocommerce-max-quantity).
+
+Contribute or fork it [on Github](https://github.com/isabelc/Woocommerce-Max-Quantity).
 
 == Installation ==
 
@@ -32,9 +37,8 @@ To set the number, go to your WordPress dashboard. Go to WooCommerce -> Settings
 
 == Frequently Asked Questions ==
 
-= How can I give back? =
+None yet.
 
-[Please rate the plugin, Tweet about it, share it on Facebook](http://isabelcastillo.com/donate/), etc. Thank you. You can also follow me on your favorite social network: [Twitter](https://twitter.com/isabelphp), [Facebook](https://www.facebook.com/isabel.8991), [Google Plus](https://plus.google.com/111025990685359974539/posts)
 == Screenshots ==
 
 1. The setting at WooCommerce -> Settings -> Inventory tab
