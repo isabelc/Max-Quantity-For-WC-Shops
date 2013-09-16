@@ -14,5 +14,3 @@ To set the number, go to your WordPress dashboard. Go to WooCommerce -> Settings
 For more info, see the [FAQ](http://wordpress.org/plugins/woocommerce-max-quantity/faq/) and the [plugin web page](http://isabelcastillo.com/downloads/woocommerce-max-quantity-plugin).
 
 For support, please use the [Support forum](http://wordpress.org/support/plugin/woocommerce-max-quantity).
-
-Forking and contributing is welcome.
