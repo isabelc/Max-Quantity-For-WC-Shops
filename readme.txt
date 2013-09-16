@@ -6,7 +6,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40
 Tags: woocommerce, max quantity, maximum, max purchase, products, cart items, cart limit, number of items
 Requires at least: 3.4
 Tested up to: 3.6.1
-Stable Tag: 1.1
+Stable Tag: 1.1.1
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,10 @@ None yet.
 1. The setting at WooCommerce -> Settings -> Inventory tab
 
 == Changelog ==
+
+= 1.1.1 =
+* bugfix related to git
+
 
 = 1.1 =
 * Tested for WP 3.6.1 compatibility
