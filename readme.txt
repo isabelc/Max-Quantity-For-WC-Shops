@@ -46,7 +46,7 @@ None yet.
 == Changelog ==
 
 = 1.1.1 =
-* bugfix related to git
+* bugfix related to syncing with Git.
 
 
 = 1.1 =
