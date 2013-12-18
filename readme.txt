@@ -3,10 +3,10 @@ Author URI: http://isabelcastillo.com
 Plugin URI: http://isabelcastillo.com/downloads/woocommerce-max-quantity-plugin
 Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
-Tags: woocommerce, max quantity, maximum, max purchase, products, cart items, cart limit, number of items
+Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
 Requires at least: 3.4
-Tested up to: 3.7.1
-Stable Tag: 1.1.4
+Tested up to: 3.8
+Stable Tag: 1.1.5
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,10 @@ None yet.
 1. The setting at WooCommerce -> Settings -> Inventory tab
 
 == Changelog ==
+
+= 1.1.5 =
+* Tested for WP 3.8 compatibility.
+
 = 1.1.4 =
 * Tested for WP 3.7.1 compatibility.
 
@@ -55,7 +59,6 @@ None yet.
 
 = 1.1.1 =
 * bugfix related to syncing with Git.
-
 
 = 1.1 =
 * Tested for WP 3.6.1 compatibility
