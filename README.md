@@ -15,6 +15,4 @@ For more info, see the [FAQ](http://wordpress.org/plugins/woocommerce-max-quanti
 
 For support, please use the [Support forum](http://wordpress.org/support/plugin/woocommerce-max-quantity).
 
-Forking and contributing is welcome. 
-
-Current issue: we must add support for products with variations.
+Forking and contributing is welcome.
