@@ -93,12 +93,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	* @since 1.1.6
 	*/
 
-	function isa_get_qty_alread_in_cart( $the_id ) {
+	function isa_get_qty_alread_in_cart( $the_id, $var_id ) {
 		global $woocommerce;
 		// search the cart for the product in question
 		foreach($woocommerce->cart->get_cart() as $cart_item_key => $values ) {
 			$qty = '';
-			if ( $the_id == $values['product_id'] ) {
+			if ( $the_id == $values['product_id'] && $values['variation_id'] == $var_id) {
 				// this is the product in question, get its qty
 				$qty = $values['quantity'];
 			}
@@ -111,10 +111,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	* @since 1.1.6
 	*/
 	
-	function isa_max_item_quantity_validation( $passed, $product_id, $quantity ) {
+	function isa_max_item_quantity_validation( $passed, $product_id, $quantity, $variation_id, $variations ) {
 		global $woocommerce;
 		$woocommerce_max_qty = get_option( 'isa_woocommerce_max_qty_limit' );
-		$alread_in_cart = isa_get_qty_alread_in_cart( $product_id );
+		$alread_in_cart = isa_get_qty_alread_in_cart( $product_id, $variation_id );
 		if ( ! empty( $alread_in_cart ) ) {
 			// there was already a quantity of this item in cart prior to this addition
 			// Check if the total of $alread_in_cart + current addition quantity is more than our max
@@ -136,5 +136,5 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 		return $passed;
 	}
-	add_action( 'woocommerce_add_to_cart_validation', 'isa_max_item_quantity_validation', 1, 3 );
+	add_action( 'woocommerce_add_to_cart_validation', 'isa_max_item_quantity_validation', 1, 5 );
 }
