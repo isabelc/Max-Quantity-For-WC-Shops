@@ -5,6 +5,8 @@ Set a universal limit for the max quantity, per product, that can be added to ca
 
 WooCommerce Max Quantity is an extension for [WooCommerce](http://wordpress.org/plugins/woocommerce/) that lets you set a max limit for the number of items that can be added to the cart. It's a universal limit, meaning this limit affects all products in your WooCommerce store. 
 
+**NOTE:** This plugin only works with regular ("Simple") products. **It does NOT work with products that have "variations".**
+
 The limit is per product, not per the entire cart. 
 
 This works for guest buyers, as well as logged-in buyers.
