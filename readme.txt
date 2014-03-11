@@ -1,12 +1,12 @@
 ﻿=== WooCommerce Max Quantity ===
 Author URI: http://isabelcastillo.com
-Plugin URI: http://isabelcastillo.com/downloads/woocommerce-max-quantity-plugin
+Plugin URI: http://wordpress.org/plugins/woocommerce-max-quantity/
 Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
-Requires at least: 3.4
+Requires at least: 3.7
 Tested up to: 3.8.1
-Stable Tag: 1.1.7
+Stable Tag: 1.1.8RC1
 
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -16,6 +16,8 @@ Set a universal limit for the max quantity, per product, that can be added to ca
 == Description ==
 WooCommerce Max Quantity is an extension for [WooCommerce](http://wordpress.org/plugins/woocommerce/) that lets you set a max limit for the number of items that can be added to the cart. It's a universal limit, meaning this limit affects all products in your WooCommerce store. 
 
+**NOTE:** This plugin only works with regular ("Simple") products. **It does NOT work with products that have "variations".**
+
 The limit is per product, not per the entire cart. 
 
 This works for guest buyers, as well as logged-in buyers.
@@ -24,11 +26,11 @@ To set the number, go to your WordPress dashboard. Go to WooCommerce -> Settings
 
 **Known Issues**
 
-This plugin currently does not support "products with Variations". I may add this support, soon.
+This plugin currently does not support "products with Variations".
 
 **Other Notes**
 
-For more info, see the [FAQ](http://wordpress.org/plugins/woocommerce-max-quantity/faq/) and the [plugin web page](http://isabelcastillo.com/downloads/woocommerce-max-quantity-plugin).
+For more info, see the [FAQ](http://wordpress.org/plugins/woocommerce-max-quantity/faq/).
 
 For support, please use the [Support forum](http://wordpress.org/support/plugin/woocommerce-max-quantity).
 
@@ -50,6 +52,9 @@ None yet.
 1. The setting at WooCommerce -> Settings -> Inventory tab
 
 == Changelog ==
+
+= 1.1.8 =
+* Maintenance: Updated description to reflect that this plugin does not support products with variations.
 
 = 1.1.6 =
 * Fix: maximum limit was able to be overridden by adding a new instance of the item to cart.
