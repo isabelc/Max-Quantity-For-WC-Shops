@@ -6,7 +6,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable Tag: 1.1.7
+Stable Tag: 1.1.8
 
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -54,6 +54,7 @@ None yet.
 == Changelog ==
 
 = 1.1.8 =
+* Fix: now checks for manually-typed quantity.
 * Maintenance: Updated description to reflect that this plugin does not support products with variations.
 
 = 1.1.6 =
