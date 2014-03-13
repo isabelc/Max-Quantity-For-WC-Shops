@@ -114,8 +114,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 		}
 
-		// make our new array of product ids and their qtys
-		$current_cart_quantities = array_combine($new_keys, $new_values);
+		if ( $new_keys && $new_values ) {
+			// make our new array of product ids and their qtys
+			$current_cart_quantities = array_combine($new_keys, $new_values);
+		}
 
 		// is there a qty for the id in question?
 		$qty_exists = isset($current_cart_quantities[$the_id]) ? $current_cart_quantities[$the_id] : '';
