@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://github.com/isabelc/WooCommerce-Max-Quantity
 Description: Set a universal limit for the max quantity, per product, that can be added to cart. Does not require customers to log in.
-Version: 1.1.8-alpha-1
+Version: 1.1.8-alpha-2
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -95,15 +95,32 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 	function isa_get_qty_alread_in_cart( $the_id ) {
 		global $woocommerce;
+
+		$new_keys = array();
+		$new_values = array();
+
 		// search the cart for the product in question
 		foreach($woocommerce->cart->get_cart() as $cart_item_key => $values ) {
-			$qty = '';
-			if ( $the_id == $values['product_id'] ) {
-				// this is the product in question, get its qty
-				$qty = $values['quantity'];
-			}
+
+			// build keys list from product ids
+			$product_id_key = isset ( $values['product_id'] ) ? $values['product_id'] : '';
+			if( $product_id_key )
+				$new_keys[] = $product_id_key;
+					
+			// build qty's list for values.
+			$qty_key = isset ( $values['quantity'] ) ? $values['quantity'] : '';
+			if( $qty_key )
+				$new_values[] = $qty_key;
+
 		}
-		return $qty;
+
+		// make our new array of product ids and their qtys
+		$current_cart_quantities = array_combine($new_keys, $new_values);
+
+		// is there a qty for the id in question?
+		$qty_exists = isset($current_cart_quantities[$the_id]) ? $current_cart_quantities[$the_id] : '';
+
+		return $qty_exists;
 	}
 
 	/**
@@ -139,7 +156,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		} else {
 			// none were in cart previously, and we already have input limits in place, so no more checks are needed
 
-			// @test just in case they manually type in an amount greater than we allow, check the input number here too
+			// just in case they manually type in an amount greater than we allow, check the input number here too
 			if ( $quantity > $woocommerce_max_qty ) {
 				// oops. too much.
 				$woocommerce->add_error( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
