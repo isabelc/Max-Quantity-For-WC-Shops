@@ -145,12 +145,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			$new_qty = $alread_in_cart + $quantity;
 			if ( $new_qty > $woocommerce_max_qty ) {
 				// oops. too much.
-				$woocommerce->add_error( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce_max_quantity' ), 
-								$woocommerce_max_qty,
-								$product_title,
-								'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>',
-								$alread_in_cart ) );
 				$passed = false;
+				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce_max_quantity' ), 
+							$woocommerce_max_qty,
+							$product_title,
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>',
+							$alread_in_cart ), 'error' );// @todo 2 strings missing text domains.
+
 			}
 		} else {
 			// none were in cart previously, and we already have input limits in place, so no more checks are needed
@@ -158,10 +159,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			// just in case they manually type in an amount greater than we allow, check the input number here too
 			if ( $quantity > $woocommerce_max_qty ) {
 				// oops. too much.
-				$woocommerce->add_error( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
+				wc_add_notice( sprintf( __( "You can add a TEST maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>') );
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>'), 'error' );
 				$passed = false;
 			}
 
@@ -171,5 +172,17 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	}
 	add_action( 'woocommerce_add_to_cart_validation', 'isa_max_item_quantity_validation', 1, 3 );
 
-// @test woocommerce_update_cart_validation
+	/**
+	* Validate product quantity when cart is UPDATED.
+	* @since 1.1.9
+	*/
+	function isa_woo_max_qty_update_cart_validation( $passed, $cart_item_key, $values, $quantity ) {
+	
+	}
+	
+	// $passed_validation = apply_filters( 'woocommerce_update_cart_validation', true, $cart_item_key, $values, $quantity );
+	
+// @todo	add_action( 'woocommerce_update_cart_validation', 'isa_woo_max_qty_update_cart_validation' );// @test
+	
+
 }
