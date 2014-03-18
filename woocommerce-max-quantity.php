@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://github.com/isabelc/WooCommerce-Max-Quantity
 Description: Set a universal limit for the max quantity, per product, that can be added to cart. Does not require customers to log in.
-Version: 1.1.9-RC-4
+Version: 1.1.9
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -147,8 +147,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce_max_quantity' ), 
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>',
-							$alread_in_cart ), 'error' );// @todo 2 strings missing text domains.
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce_max_quantity' ) . '">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>',
+							$alread_in_cart ), 'error' );
 
 			}
 		} else {
@@ -160,7 +160,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>'), 'error' );
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce_max_quantity' ) . '">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>'), 'error' );
 				$passed = false;
 			}
 
@@ -193,8 +193,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce_max_quantity' ), 
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>',
-							$alread_in_cart ), 'error' );// @todo 2 strings missing text domains.
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce_max_quantity' ) . '">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>',
+							$alread_in_cart ), 'error' );
 
 			}
 
@@ -207,7 +207,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>'), 'error' );
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce_max_quantity' ) . '">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>'), 'error' );
 				$passed = false;
 			}
 		}
