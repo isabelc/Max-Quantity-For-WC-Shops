@@ -4,8 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
 Requires at least: 3.7
 Tested up to: 3.8.1
-Stable Tag: 1.1.8
-
+Stable Tag: 1.1.9
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +13,9 @@ Set a universal limit for the max quantity, per product, that can be added to ca
 == Description ==
 WooCommerce Max Quantity is an extension for [WooCommerce](http://wordpress.org/plugins/woocommerce/) that lets you set a max limit for the number of items that can be added to the cart. It's a universal limit, meaning this limit affects all products in your WooCommerce store. 
 
-**NOTE:** This plugin only works with "Simple" products. **It does NOT work with products that have "variations".**
+**NOTE:**
+This plugin only works with "Simple" products. For products that have "variations", you can try [this fork by thekillerdev](https://github.com/thekillerdev/WooCommerce-Max-Quantity) instead, which he modified to work with products with variations.
+**END NOTE**
 
 The limit is per product, not per the entire cart. 
 
@@ -51,6 +52,11 @@ I don't have the time at the moment to add it with enough options for backwards 
 
 == Changelog ==
 
+= 1.1.9 =
+* Fix: added _update_cart_validation to avoid manual override on cart update at checkout.
+* Tweak: remove passed=true in validation checks, use the passed parameter instead.
+* Maintenance: replace woocommerce - add_error with wc_add_notice.
+
 = 1.1.8 =
 * Fix: now checks for manually-typed quantity because maximum limit was able to be overridden by typing in a number.
 * Fix: a problem in which limit was ignored if product was previously added to cart, then added another item to cart, then re-added this item to cart.
@@ -82,5 +88,8 @@ I don't have the time at the moment to add it with enough options for backwards 
 * Initial release.
 
 == Upgrade Notice ==
+= 1.1.9 = 
+Fix: added _update_cart_validation to avoid manual override on cart update at checkout.
+
 = 1.1.8 =
 Fix: they can no longer override limit by manually typing quantity. Other bug also fixed.
