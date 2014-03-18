@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://github.com/isabelc/WooCommerce-Max-Quantity
 Description: Set a universal limit for the max quantity, per product, that can be added to cart. Does not require customers to log in.
-Version: 1.1.9-RC-3
+Version: 1.1.9-RC-4
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -133,9 +133,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	function isa_max_item_quantity_validation( $passed, $product_id, $quantity ) {
 		global $woocommerce;
 		$woocommerce_max_qty = get_option( 'isa_woocommerce_max_qty_limit' );
-
 		$alread_in_cart = isa_get_qty_alread_in_cart( $product_id );
-
 		$product = get_product( $product_id );
 		$product_title = $product->post->post_title;
 
@@ -149,20 +147,20 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce_max_quantity' ), 
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>',
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>',
 							$alread_in_cart ), 'error' );// @todo 2 strings missing text domains.
 
 			}
 		} else {
-			// none were in cart previously, and we already have input limits in place, so no more checks are needed
+			// none were in cart previously
 
 			// just in case they manually type in an amount greater than we allow, check the input number here too
 			if ( $quantity > $woocommerce_max_qty ) {
 				// oops. too much.
-				wc_add_notice( sprintf( __( "You can add a TEST maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
+				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>'), 'error' );
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>'), 'error' );
 				$passed = false;
 			}
 
@@ -177,12 +175,43 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	* @since 1.1.9
 	*/
 	function isa_woo_max_qty_update_cart_validation( $passed, $cart_item_key, $values, $quantity ) {
-	
-	}
-	
-	// $passed_validation = apply_filters( 'woocommerce_update_cart_validation', true, $cart_item_key, $values, $quantity );
-	
-// @todo	add_action( 'woocommerce_update_cart_validation', 'isa_woo_max_qty_update_cart_validation' );// @test
-	
 
+		global $woocommerce;
+		$woocommerce_max_qty = get_option( 'isa_woocommerce_max_qty_limit' );
+		$product_id = $values['product_id'];
+		$alread_in_cart = isa_get_qty_alread_in_cart( $product_id );
+		$product = get_product( $product_id );
+		$product_title = $product->post->post_title;
+
+		if ( ! empty( $alread_in_cart ) ) {
+			// there was already a quantity of this item in cart prior to this addition
+			// Check if the total of $alread_in_cart + current addition quantity is more than our max
+			$new_qty = $alread_in_cart + $quantity;
+			if ( $new_qty > $woocommerce_max_qty ) {
+				// too much.
+				$passed = false;
+				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce_max_quantity' ), 
+							$woocommerce_max_qty,
+							$product_title,
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>',
+							$alread_in_cart ), 'error' );// @todo 2 strings missing text domains.
+
+			}
+
+		} else {
+
+			// none were in cart previously
+			// just in case they manually type in an amount greater than we allow, check the input number here too
+			if ( $quantity > $woocommerce_max_qty ) {
+				// too much.
+				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
+							$woocommerce_max_qty,
+							$product_title,
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="Go to cart">' . __( 'your cart', '' ) . '</a>'), 'error' );
+				$passed = false;
+			}
+		}
+		return $passed;
+	}
+	add_action( 'woocommerce_update_cart_validation', 'isa_woo_max_qty_update_cart_validation', 1, 4 );
 }
