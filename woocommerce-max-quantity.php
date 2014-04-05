@@ -7,7 +7,7 @@ Version: 1.1.9
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
-Text Domain: woocommerce_max_quantity
+Text Domain: woocommerce-max-quantity
 Domain Path: languages
 
 Copyright 2013 - 2014 Isabel Castillo
@@ -40,14 +40,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			if ( isset( $section['id'] ) && 'inventory_options' == $section['id'] &&
 		       isset( $section['type'] ) && 'sectionend' == $section['type'] ) {
 					$updated_settings[] = array(
-					    'name'     => __( 'Maximum Quantity Limit Per Product', 'woocommerce_max_quantity' ),
-					    'desc_tip'     => __( 'Set a limit for the maximum quantity, per product, that can be added to the shopping cart. Enter a number, 1 or greater.', 'woocommerce_max_quantity' ),
+					    'name'     => __( 'Maximum Quantity Limit Per Product', 'woocommerce-max-quantity' ),
+					    'desc_tip'     => __( 'Set a limit for the maximum quantity, per product, that can be added to the shopping cart. Enter a number, 1 or greater.', 'woocommerce-max-quantity' ),
 					    'id'       => 'isa_woocommerce_max_qty_limit',
 					    'css'      => 'width:50px;',
 					    'std'      => '', // WooCommerce < 2.0
 					    'default'  => '', // WooCommerce >= 2.0
 					    'type'     => 'text',
-					    'desc' =>  __( 'Max quantity, per product, that can be added to the shopping cart. Enter a number, 1 or greater.', 'woocommerce_max_quantity' ),
+					    'desc' =>  __( 'Max quantity, per product, that can be added to the shopping cart. Enter a number, 1 or greater.', 'woocommerce-max-quantity' ),
 				);
 			}
 			$updated_settings[] = $section;
@@ -144,10 +144,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			if ( $new_qty > $woocommerce_max_qty ) {
 				// oops. too much.
 				$passed = false;
-				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce_max_quantity' ), 
+				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce-max-quantity' ), 
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce_max_quantity' ) . '">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>',
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>',
 							$alread_in_cart ), 'error' );
 
 			}
@@ -157,10 +157,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			// just in case they manually type in an amount greater than we allow, check the input number here too
 			if ( $quantity > $woocommerce_max_qty ) {
 				// oops. too much.
-				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
+				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce-max-quantity' ),
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce_max_quantity' ) . '">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>'), 'error' );
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>'), 'error' );
 				$passed = false;
 			}
 
@@ -190,10 +190,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			if ( $new_qty > $woocommerce_max_qty ) {
 				// too much.
 				$passed = false;
-				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce_max_quantity' ), 
+				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s. You already have %s.", 'woocommerce-max-quantity' ), 
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce_max_quantity' ) . '">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>',
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>',
 							$alread_in_cart ), 'error' );
 
 			}
@@ -204,10 +204,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			// just in case they manually type in an amount greater than we allow, check the input number here too
 			if ( $quantity > $woocommerce_max_qty ) {
 				// too much.
-				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce_max_quantity' ),
+				wc_add_notice( sprintf( __( "You can add a maximum of %s %s's to %s.", 'woocommerce-max-quantity' ),
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce_max_quantity' ) . '">' . __( 'your cart', 'woocommerce_max_quantity' ) . '</a>'), 'error' );
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>'), 'error' );
 				$passed = false;
 			}
 		}
