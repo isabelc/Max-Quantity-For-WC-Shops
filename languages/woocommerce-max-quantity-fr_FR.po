@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Max Quantity\n"
+"POT-Creation-Date: 2014-04-05 12:41-0500\n"
+"PO-Revision-Date: 2014-04-05 12:50-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_attr_e\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Isabel\\Documents\\my_web_sites"
+"\\knuckleracket\\wp-content\\plugins\\woocommerce-max-quantity\n"
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:43
+msgid "Maximum Quantity Limit Per Product"
+msgstr "Limitation de la Quantité Maximale par Produit"
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:44
+msgid ""
+"Set a limit for the maximum quantity, per product, that can be added to the "
+"shopping cart. Enter a number, 1 or greater."
+msgstr ""
+"Définir une limite de la quantité maximale, par produit, qui peut être "
+"ajouté à votre panier. Entrez un nombre, 1 ou plus."
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:50
+msgid ""
+"Max quantity, per product, that can be added to the shopping cart. Enter a "
+"number, 1 or greater."
+msgstr ""
+"Quantité maximum, par produit, qui peut être ajouté à votre panier. Entrez "
+"un nombre, 1 ou plus."
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:147
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:193
+#, php-format
+msgid "You can add a maximum of %1$s %2$s's to %3$s. You already have %4$s."
+msgstr ""
+"Vous pouvez ajouter un maximum de %1$s de %2$s à %3$s. Vous avez déjà %4$s."
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:150
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:163
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:196
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:210
+msgid "Go to cart"
+msgstr "Aller au panier"
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:150
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:163
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:196
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:210
+msgid "your cart"
+msgstr "votre panier"
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:160
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:207
+#, php-format
+msgid "You can add a maximum of %1$s %2$s's to %3$s."
+msgstr "Vous pouvez ajouter un maximum de %1$s de %2$s à %3$s."
