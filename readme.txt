@@ -2,9 +2,9 @@
 Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
-Requires at least: 3.7
+Requires at least: 3.8
 Tested up to: 4.0
-Stable Tag: 1.2.0
+Stable Tag: 1.2.1
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,13 +55,14 @@ I don't have the time at the moment to add it with the proper option to disable 
 == Changelog ==
 
 = 1.2.1 =
+* Fix - Did not calculate quantity properly if you UPDATE Quantity on Cart page. This did not let some users DECREASE or INCREASE the quantity while on the cart page.
 * Maintenance - Tested and passed for WordPress 4.0 compatibility.
 
 = 1.2.0 =
-* New: added .pot translation file.
-* New: added translations for French, Hindi, and Spanish languages.
-* New: changed textdomain to plugin slug.
-* Tested and passed for WP 3.9 compatibility.
+* New - Added .pot translation file.
+* New - Added translations for French, Hindi, and Spanish languages.
+* New - Changed textdomain to plugin slug.
+* Maintenance - Tested and passed for WP 3.9 compatibility.
 
 = 1.1.9 =
 * Fix: added _update_cart_validation to avoid manual override on cart update at checkout.
@@ -99,6 +100,10 @@ I don't have the time at the moment to add it with the proper option to disable 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Fix - Did not calculate quantity properly if you UPDATE Quantity on Cart page.
+
 = 1.1.9 = 
 Fix: added _update_cart_validation to avoid manual override on cart update at checkout.
 
