@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce Max Quantity\n"
+"POT-Creation-Date: 2014-04-05 12:41-0500\n"
+"PO-Revision-Date: 2014-11-01 19:38+0100\n"
+"Last-Translator: Tobias Perschon <office@bitconnect.at>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.10\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_attr_e\n"
+"Language: de_DE\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Isabel\\Documents\\my_web_sites"
+"\\knuckleracket\\wp-content\\plugins\\woocommerce-max-quantity\n"
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:43
+msgid "Maximum Quantity Limit Per Product"
+msgstr "Maximale Anzahl pro Produkt"
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:44
+msgid ""
+"Set a limit for the maximum quantity, per product, that can be added to the "
+"shopping cart. Enter a number, 1 or greater."
+msgstr ""
+"Setze ein Limit für die maximale Anzahl die sich ein Produkt im Warenkorb "
+"befinden darf. Gib eine Nummer größer oder gleich 1 ein."
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:50
+msgid ""
+"Max quantity, per product, that can be added to the shopping cart. Enter a "
+"number, 1 or greater."
+msgstr ""
+"Maximale Anzahl pro Produkt die sich im Warenkorb befinden darf. Gib eine "
+"Nummer größer oder gleich 1 ein."
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:147
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:193
+#, php-format
+msgid "You can add a maximum of %1$s %2$s's to %3$s. You already have %4$s."
+msgstr ""
+"Es können maximal %1$s Stück %2$s zum %3$s hinzugefügt werden. Es sind "
+"bereits %4$s im Warenkorb."
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:150
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:163
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:196
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:210
+msgid "Go to cart"
+msgstr "Zum Warenkorb"
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:150
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:163
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:196
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:210
+msgid "your cart"
+msgstr "Warenkorb"
+
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:160
+#: C:\Users\Isabel\Documents\my_web_sites\knuckleracket\wp-content\plugins\woocommerce-max-quantity/woocommerce-max-quantity.php:207
+#, php-format
+msgid "You can add a maximum of %1$s %2$s's to %3$s."
+msgstr "Es können maximal %1$s Stück von %2$s zum %3$s hinzugefügt warden."

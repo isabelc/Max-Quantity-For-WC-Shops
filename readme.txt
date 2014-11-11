@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
 Requires at least: 3.8
 Tested up to: 4.0
-Stable Tag: 1.2.1
+Stable Tag: 1.2.2
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,7 +24,7 @@ This works for guest buyers, as well as logged-in buyers.
 To set the number, go to your WordPress dashboard. Go to WooCommerce -> Settings -> Products tab. Click "Inventory". Scroll down to "Maximum Quantity Limit Per Product". Set your desired limit there.
 
 **Languages**
-Includes `.mo` and `.po` translations for French, Hindi, and Spanish languages. Also includes a `.pot` file to make more translations.
+Includes `.mo` and `.po` translations for French, German (thanks @tofuSCHNITZEL), Hindi, and Spanish languages. Also includes a `.pot` file to make more translations.
 
 **Other Notes**
 
@@ -53,6 +53,9 @@ I don't have the time at the moment to add it with the proper option to disable 
 1. The setting at WooCommerce -> Settings -> Products tab -> "Inventory" link
 
 == Changelog ==
+
+= 1.2.2 =
+* New - Added German translation, thanks @tofuSCHNITZEL.
 
 = 1.2.1 =
 * Fix - Did not calculate quantity properly if you UPDATE Quantity on Cart page. This did not let some users DECREASE or INCREASE the quantity while on the cart page.
@@ -100,6 +103,9 @@ I don't have the time at the moment to add it with the proper option to disable 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+Added German translation, thanks @tofuSCHNITZEL.
 
 = 1.2.1 =
 Fix - Did not calculate quantity properly if you UPDATE Quantity on Cart page.
