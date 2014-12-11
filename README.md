@@ -17,7 +17,7 @@ To set the number, go to your WordPress dashboard. Go to WooCommerce -> Settings
 
 Languages
 ---------
-Includes `.mo` and `.po` translations for French, German (thanks @tofuSCHNITZEL), Hindi, and Spanish languages. Also includes a `.pot` file to make more translations.
+Includes `.mo` and `.po` translations for Dutch (thanks to Martijn Heesters), French, German (thanks @tofuSCHNITZEL), Hindi, and Spanish languages. Also includes a `.pot` file to make more translations.
 
 For more info, see the [FAQ](http://wordpress.org/plugins/woocommerce-max-quantity/faq/) and the [plugin web page](http://wordpress.org/plugins/woocommerce-max-quantity/).
 
