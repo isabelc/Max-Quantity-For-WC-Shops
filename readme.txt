@@ -3,8 +3,8 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
 Requires at least: 3.8
-Tested up to: 4.0.1
-Stable Tag: 1.2.2
+Tested up to: 4.1
+Stable tag: 1.2.3
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,6 +106,9 @@ I don't have the time at the moment to add it with the proper option to disable 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.3 =
+Added Dutch translation, thanks Martijn Heesters.
 
 = 1.2.2 =
 Added German translation, thanks @tofuSCHNITZEL.
