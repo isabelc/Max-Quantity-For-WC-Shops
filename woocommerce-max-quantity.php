@@ -72,15 +72,15 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	* @since 1.1.6
 	*/
 
-	function isa_woocommerce_quantity_input_args( $args, $product ) {
+	function isa_woocommerce_quantity_input_max( $value, $product ) {
 		$woocommerce_max_qty = get_option( 'isa_woocommerce_max_qty_limit' );
 		// don't bother if limit is not entered
 		if ( ! empty( $woocommerce_max_qty ) ) {
-			$args['max_value'] = $woocommerce_max_qty;
+			return $woocommerce_max_qty;
 		}
-		return $args;
+		return $value;
 	}
-	add_filter( 'woocommerce_quantity_input_args', 'isa_woocommerce_quantity_input_args', 10, 2 );
+	add_filter( 'woocommerce_quantity_input_max', 'isa_woocommerce_quantity_input_max', 10, 2 );
 
 	/**
 	* For products with Variations, set max quantity for total number that can be added to cart per product.
