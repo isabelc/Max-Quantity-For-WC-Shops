@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: http://wordpress.org/plugins/woocommerce-max-quantity
 Description: Set a universal limit for the max quantity, per product, that can be added to cart. Does not require customers to log in.
-Version: 1.3.beta1
+Version: 1.3.beta2
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
@@ -156,6 +156,17 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			if ( $new_qty > $woocommerce_max_qty ) {
 				// oops. too much.
 				$passed = false;
+
+				// Add compatibility with WooCommerce Direct Checkout
+				if ( class_exists( 'WooCommerce_Direct_Checkout' ) ) {
+					$direct_checkout = get_option( 'direct_checkout_enabled' );
+					$direct_checkout_url = get_option( 'direct_checkout_cart_redirect_url' );
+					if ( $direct_checkout && $direct_checkout_url ) {
+						// Redirect to submit page
+						wp_redirect( esc_url_raw( $direct_checkout_url ) );
+						exit;
+					}
+				}
 
 				wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s. You already have %4$s.', 'woocommerce-max-quantity' ), 
 							$woocommerce_max_qty,
