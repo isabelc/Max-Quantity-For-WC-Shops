@@ -3,14 +3,14 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: http://wordpress.org/plugins/woocommerce-max-quantity
 Description: Set a universal limit for the max quantity, per product, that can be added to cart. Does not require customers to log in.
-Version: 1.3.beta2
+Version: 1.3
 Author: Isabel Castillo
 Author URI: http://isabelcastillo.com
 License: GPL2
 Text Domain: woocommerce-max-quantity
 Domain Path: languages
 
-Copyright 2013 - 2015 Isabel Castillo
+Copyright 2013 - 2016 Isabel Castillo
 
 This file is part of WooCommerce Max Quantity plugin.
 

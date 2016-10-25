@@ -3,8 +3,8 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
 Requires at least: 3.8
-Tested up to: 4.1.1
-Stable tag: 1.2.4
+Tested up to: 4.7
+Stable tag: 1.3
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ I don't have the time at the moment to add it with the proper option to disable 
 1. The setting at WooCommerce -> Settings -> Products tab -> "Inventory" link
 
 == Changelog ==
+
+= 1.3 =
+* New - Added compatibility with the WooCommerce Direct Checkout plugin
 
 = 1.2.4 =
 * Fix - The setting had disappeared on last WC update.
@@ -109,6 +112,9 @@ I don't have the time at the moment to add it with the proper option to disable 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.3 =
+Added compatibility with the WooCommerce Direct Checkout plugin
 
 = 1.2.4 =
 The setting had disappeared on last WC update.
