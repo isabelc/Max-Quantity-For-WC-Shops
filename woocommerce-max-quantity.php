@@ -157,22 +157,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				// oops. too much.
 				$passed = false;
 
-				// Add compatibility with WooCommerce_Direct_Checkout
-				if ( class_exists( 'WooCommerce_Direct_Checkout' ) ) {
-					$direct_checkout = get_option( 'direct_checkout_enabled' );
-					$direct_checkout_url = get_option( 'direct_checkout_cart_redirect_url' );
-					if ( $direct_checkout && $direct_checkout_url ) {
-						// Redirect to submit page
-						wp_redirect( esc_url_raw( $direct_checkout_url ) );
-						exit;
-					}
-				}
-
 				wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s. You already have %4$s.', 'woocommerce-max-quantity' ), 
 							$woocommerce_max_qty,
 							$product_title,
-							'<a href="' . esc_url( $woocommerce->cart->get_cart_url() ) . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>',
-							$alread_in_cart ), 'error' );// @test esc_url
+							'<a href="' . $woocommerce->cart->get_cart_url() . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>',
+							$alread_in_cart ), 'error' );
 
 			}
 		} else {
