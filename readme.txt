@@ -38,10 +38,11 @@ Contribute or fork it [on Github](https://github.com/isabelc/Woocommerce-Max-Qua
 
 == Installation ==
 
-1. Download the plugin file (`.zip`).
-2. In your WordPress dashboard, go to "Plugins -> Add New", and click "Upload".
-3. Upload the plugin file and activate it.
-4. Go to WooCommerce -> Settings -> Products tab. Click "Inventory". Scroll down to "Maximum Quantity Limit Per Product". Set your desired limit there.
+1. In your WordPress dashboard, go to Plugins –> Add New.
+2. Search for "WooCommerce Max Quantity" to find the plugin.
+3. When you see "WooCommerce Max Quantity", click "Install Now" to install the plugin.
+4. Click "Activate" to activate the plugin.
+5. Go to WooCommerce -> Settings -> Products tab. Click "Inventory". Scroll down to "Maximum Quantity Limit Per Product". Set your desired limit there.
 
 == Frequently Asked Questions ==
 
