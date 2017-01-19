@@ -8,16 +8,18 @@ Stable tag: 1.3
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Set a universal limit for the max quantity, per product, that can be added to cart. Does not require customers to log in.
+Set a limit for the max quantity of products that can be added to cart. Does not require customers to log in.
 
 == Description ==
 WooCommerce Max Quantity is an extremely simple extension for [WooCommerce](http://wordpress.org/plugins/woocommerce/) that lets you set a max limit for the number of items that can be added to the cart. It's simple because there is only 1 option (your desired maximum number). It's a universal limit, meaning this limit affects each product in your WooCommerce store.
+
+**This maximum limit setting will apply to all products without variations. There are no options to set a different max limits for different products.** 
 
 **NOTE:**
 This plugin only works with "Simple" products. For products that have "variations", you can try [this fork by thekillerdev](https://github.com/thekillerdev/WooCommerce-Max-Quantity) instead, which he modified to work with products with variations.
 **END NOTE**
 
-The limit is per product, not per the entire cart. 
+The limit is per product, not per the entire cart. For example, if your max limit is 2, buyers can add 2 of **each product** to the cart.
 
 This works for guest buyers, as well as logged-in buyers.
 
