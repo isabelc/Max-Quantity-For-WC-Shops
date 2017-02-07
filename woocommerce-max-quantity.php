@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart. Does not require customers to log in.
-Version: 1.4-alpha-1
+Version: 1.4-alpha-2
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -36,15 +36,15 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	* @since 1.2.0
 	* @return void
 	*/
-	function isa_woo_max_qty_load_textdomain() {
+	function isa_wc_max_qty_load_textdomain() {
 		load_plugin_textdomain( 'woocommerce-max-quantity', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
-	add_action( 'plugins_loaded', 'isa_woo_max_qty_load_textdomain' );
+	add_action( 'plugins_loaded', 'isa_wc_max_qty_load_textdomain' );
 
 	/*
 	* Add the option to WooCommerce products tab
 	*/
-	function add_isa_max_quantity_options( $settings ) {
+	function isa_wc_max_qty_options( $settings ) {
 		$updated_settings = array();
 		foreach ( $settings as $section ) {
 			// at the bottom of the Inventory Options section
@@ -65,95 +65,100 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 		return $updated_settings;
 	}
-	add_filter( 'woocommerce_inventory_settings', 'add_isa_max_quantity_options' );
+	add_filter( 'woocommerce_inventory_settings', 'isa_wc_max_qty_options' );
 
 	/**
-	* For Simple products, set max input value (max number that can be added to cart per product)
+	* For Simple Products, set max value for the quantity input field for add to cart forms
 	* @since 1.1.6
 	*/
-
-	function isa_woocommerce_quantity_input_args( $args, $product ) {
-		$woocommerce_max_qty = get_option( 'isa_woocommerce_max_qty_limit' );
+	function isa_wc_max_qty_set_input_args( $args, $product ) {
+		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
 		// don't bother if limit is not entered
-		if ( ! empty( $woocommerce_max_qty ) ) {
-			$args['max_value'] = $woocommerce_max_qty;
+		if ( ! empty( $max ) ) {
+			$args['max_value'] = $max;
 		}
 		return $args;
 	}
-	add_filter( 'woocommerce_quantity_input_args', 'isa_woocommerce_quantity_input_args', 10, 2 );
+	add_filter( 'woocommerce_quantity_input_args', 'isa_wc_max_qty_set_input_args', 10, 2 );
 
 	/**
-	* For products with Variations, set max quantity for total number that can be added to cart per product.
-	* @since 1.1.6
-	* @todo add support for products with Variations
-	*/
-	
-	function isa_woocommerce_available_variation( $args ) {
-		$woocommerce_max_qty = get_option( 'isa_woocommerce_max_qty_limit' );
-		// don't bother if limit is not entered
-		if ( ! empty( $woocommerce_max_qty ) ) {
-			$args['max_value'] = $woocommerce_max_qty;
+	 * For Variable Products, enforce max quantity on the quantity input field on the add to cart forms 
+	 * @since 1.4
+	 */
+	function isa_wc_max_qty_variation_input_qty_max( $qty, $variation ) {
+		// Do not affect the actual variation stock quantity on the admin side
+		if ( is_admin() ) {
+			return $qty;
 		}
-		return $args;
+		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
+		if ( ! empty( $max ) ) {
+			$qty = $max;
+		}
+		return $qty;
 	}
-	add_filter( 'woocommerce_available_variation', 'isa_woocommerce_available_variation' );
 
 	/**
-	* Find out how many of this Simple product are already in cart
+	 * Filter the variation stock quantity to enforce the max on the quantity input field
+	 * on add to cart forms for Variable Products.
+	 * @since 1.4
+	 */
+	add_filter( 'woocommerce_variation_get_stock_quantity', 'isa_wc_max_qty_variation_input_qty_max', 10, 2);
+
+	/**
+	* Find out how many of this product are already in the cart
 	* @param mixed $the_id of the product in question
-	* @return integer
+	* @param string $cart_item_key The cart key for this item in case of Updating cart
+	* @return integer $running_qty The total quantity of this item, parent item in case of variations, in cart
 	* @since 1.1.6
 	*/
 
-	function isa_get_qty_alread_in_cart( $the_id ) {
+	function isa_wc_max_qty_get_cart_qty( $the_id, $cart_item_key = '' ) {
 		global $woocommerce;
-
-		$new_keys = array();
-		$new_values = array();
+		$running_qty = 0;
 
 		// search the cart for the product in question
-		foreach($woocommerce->cart->get_cart() as $cart_item_key => $values ) {
+		foreach($woocommerce->cart->get_cart() as $other_cart_item_keys => $values ) {
 
-			// build keys list from product ids
-			$product_id_key = isset ( $values['product_id'] ) ? $values['product_id'] : '';
-			if( $product_id_key )
-				$new_keys[] = $product_id_key;
-					
-			// build qty's list for values.
-			$qty_key = isset ( $values['quantity'] ) ? $values['quantity'] : '';
-			if( $qty_key )
-				$new_values[] = $qty_key;
+			if ( $the_id == $values['product_id'] ) {
+
+				/*
+				 * In case of updating the cart quantity, don't count this cart item key
+				otherwise they won't be able to REDUCE the number of items in cart becuase it will think it is adding the new quantity on top of the existing quantity, when in fact it is reducing the existing quantity to the new quantity.
+				 */
+				
+				if ( $cart_item_key == $other_cart_item_keys ) {
+					continue;
+				}
+
+				// Add that quantity to our running total qty for this product
+				$running_qty += (int) $values['quantity'];			
+
+			}
 
 		}
 
-		if ( $new_keys && $new_values ) {
-			// make our new array of product ids and their qtys
-			$current_cart_quantities = array_combine($new_keys, $new_values);
-		}
-
-		// is there a qty for the id in question?
-		$qty_exists = isset($current_cart_quantities[$the_id]) ? $current_cart_quantities[$the_id] : '';
-
-		return $qty_exists;
+		return $running_qty;
 	}
 
 	/**
 	* Validate product quantity when Added to cart.
 	* @since 1.1.6
 	*/
-	
-	function isa_max_item_quantity_validation( $passed, $product_id, $quantity ) {
+	function isa_wc_max_qty_add_to_cart_validation( $passed, $product_id, $quantity, $variation_id = '', $variations = '' ) {
+		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
+		if ( empty( $max ) ) {
+			return $passed;
+		}
+
 		global $woocommerce;
-		$woocommerce_max_qty = get_option( 'isa_woocommerce_max_qty_limit' );
-		$alread_in_cart = isa_get_qty_alread_in_cart( $product_id );
+		$already_in_cart = isa_wc_max_qty_get_cart_qty( $product_id );
 		$product = get_product( $product_id );
 		$product_title = $product->post->post_title;
 
-		if ( ! empty( $alread_in_cart ) ) {
+		if ( ! empty( $already_in_cart ) ) {
 			// there was already a quantity of this item in cart prior to this addition
-			// Check if the total of $alread_in_cart + current addition quantity is more than our max
-			$new_qty = $alread_in_cart + $quantity;
-			if ( $new_qty > $woocommerce_max_qty ) {
+			// Check if the total of already_in_cart + current addition quantity is more than our max
+			if ( ( $already_in_cart + $quantity ) > $max ) {
 				// oops. too much.
 				$passed = false;
 
@@ -169,20 +174,19 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				}
 
 				wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s. You already have %4$s.', 'woocommerce-max-quantity' ), 
-							$woocommerce_max_qty,
+							$max,
 							$product_title,
 							'<a href="' . esc_url( $woocommerce->cart->get_cart_url() ) . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>',
-							$alread_in_cart ), 'error' );
+							$already_in_cart ), 'error' );
 
 			}
 		} else {
 			// none were in cart previously
-
 			// just in case they manually type in an amount greater than we allow, check the input number here too
-			if ( $quantity > $woocommerce_max_qty ) {
+			if ( $quantity > $max ) {
 				// oops. too much.
 				wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s.', 'woocommerce-max-quantity' ),
-							$woocommerce_max_qty,
+							$max,
 							$product_title,
 							'<a href="' . esc_url( $woocommerce->cart->get_cart_url() ) . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>'), 'error' );
 				$passed = false;
@@ -192,35 +196,35 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 		return $passed;
 	}
-	add_action( 'woocommerce_add_to_cart_validation', 'isa_max_item_quantity_validation', 1, 3 );
+	add_filter( 'woocommerce_add_to_cart_validation', 'isa_wc_max_qty_add_to_cart_validation', 1, 5 );
 
 	/**
 	* Validate product quantity when cart is UPDATED.
+	*
+	* Just in case they manually type in an amount greater than we allow.
 	* @since 1.1.9
 	*/
-	function isa_woo_max_qty_update_cart_validation( $passed, $cart_item_key, $values, $quantity ) {
-
-		global $woocommerce;
-		$woocommerce_max_qty = get_option( 'isa_woocommerce_max_qty_limit' );
-		$product_id = $values['product_id'];
-		$product = get_product( $product_id );
-		$product_title = $product->post->post_title;
-
+	function isa_wc_max_qty_update_cart_validation( $passed, $cart_item_key, $values, $quantity ) {
+		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
 		// don't bother if limit is not entered
-		if ( ! empty( $woocommerce_max_qty ) ) {
-			// just in case they manually type in an amount greater than we allow, check the input number here too
-				
-			if ( $quantity > $woocommerce_max_qty ) {
-				// too much.
-				wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s.', 'woocommerce-max-quantity' ),
-							$woocommerce_max_qty,
-							$product_title,
-							'<a href="' . esc_url( $woocommerce->cart->get_cart_url() ) . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>'), 'error' );
-				$passed = false;
-			}
+		if ( empty( $max ) ) {
+			return $passed;
 		}
 
+		global $woocommerce;
+		$product_title = $values['data']->post->post_title;
+		$already_in_cart = isa_wc_max_qty_get_cart_qty( $values['product_id'], $cart_item_key );
+
+		if ( ( $already_in_cart + $quantity ) > $max ) {
+
+			wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s.', 'woocommerce-max-quantity' ),
+						$max,
+						$product_title,
+						'<a href="' . esc_url( $woocommerce->cart->get_cart_url() ) . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>'), 'error' );
+			$passed = false;
+		}
 		return $passed;
 	}
-	add_action( 'woocommerce_update_cart_validation', 'isa_woo_max_qty_update_cart_validation', 1, 4 );
+	add_filter( 'woocommerce_update_cart_validation', 'isa_wc_max_qty_update_cart_validation', 1, 4 );
+
 }
