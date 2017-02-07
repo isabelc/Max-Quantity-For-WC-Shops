@@ -3,7 +3,7 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, cart limit
 Requires at least: 3.8
-Tested up to: 4.7
+Tested up to: 4.7.2
 Stable tag: 1.3
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Set a limit for the max quantity of products that can be added to cart. Does not require customers to log in.
 
 == Description ==
-WooCommerce Max Quantity is an extremely simple extension for [WooCommerce](http://wordpress.org/plugins/woocommerce/) that lets you set a max limit for the number of items that can be added to the cart. It's simple because there is only 1 option (your desired maximum number). It's a universal limit, meaning this limit affects each product in your WooCommerce store.
+WooCommerce Max Quantity is an extremely simple extension for [WooCommerce](https://wordpress.org/plugins/woocommerce/) that lets you set a max limit for the number of items that can be added to the cart. It's simple because there is only 1 option (your desired maximum number). It's a universal limit, meaning this limit affects each product in your WooCommerce store.
 
 **This maximum limit setting will apply to all products without variations. There are no options to set a different max limits for different products.** 
 
@@ -30,9 +30,9 @@ Includes `.mo` and `.po` translations for Dutch (thanks to Martijn Heesters), Fr
 
 **Other Notes**
 
-For more info, see the [FAQ](http://wordpress.org/plugins/woocommerce-max-quantity/faq/).
+For more info, see the [FAQ](https://wordpress.org/plugins/woocommerce-max-quantity/faq/).
 
-For support, please use the [Support forum](http://wordpress.org/support/plugin/woocommerce-max-quantity).
+For support, please use the [Support forum](https://wordpress.org/support/plugin/woocommerce-max-quantity).
 
 Contribute or fork it [on Github](https://github.com/isabelc/Woocommerce-Max-Quantity).
 

@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: WooCommerce Max Quantity
-Plugin URI: https://wordpress.org/plugins/woocommerce-max-quantity
+Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart. Does not require customers to log in.
-Version: 1.3
+Version: 1.4-alpha-1
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2

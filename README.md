@@ -1,10 +1,10 @@
 WooCommerce Max Quantity
 ========================
 
-Set a universal limit for the max quantity, per product, that can be added to cart. Does not require customers to log in.
+Set a limit for the max quantity that can be added to cart. Does not require customers to log in.
 
-For more info, see the [FAQ](http://wordpress.org/plugins/woocommerce-max-quantity/faq/) and the [plugin web page](http://wordpress.org/plugins/woocommerce-max-quantity/).
+For more info, see the [plugin web page](https://isabelcastillo.com/free-plugins/woocommerce-max-quantity) and the [FAQ](https://wordpress.org/plugins/woocommerce-max-quantity/faq/).
 
-For support, please use the [Support forum](http://wordpress.org/support/plugin/woocommerce-max-quantity).
+For support, please use the [Support forum](https://wordpress.org/support/plugin/woocommerce-max-quantity) or create an issue here on GitHub.
 
 Forking and contributing is welcome.
