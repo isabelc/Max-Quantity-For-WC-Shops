@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart. Does not require customers to log in.
-Version: 1.4-alpha-2
+Version: 1.4-alpha-3
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -68,18 +68,30 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	add_filter( 'woocommerce_inventory_settings', 'isa_wc_max_qty_options' );
 
 	/**
-	* For Simple Products, set max value for the quantity input field for add to cart forms
-	* @since 1.1.6
-	*/
-	function isa_wc_max_qty_set_input_args( $args, $product ) {
+	 * For Simple Products, set max value for the quantity input field for add to cart forms
+	 * @since 1.4
+	 */
+	function isa_wc_max_qty_set_input_max( $qty, $product ) {
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
-		// don't bother if limit is not entered
-		if ( ! empty( $max ) ) {
-			$args['max_value'] = $max;
+		if ( empty( $max ) ) {
+			return $qty;
 		}
-		return $args;
+
+		$qty = $max;
+
+		if ( $product->managing_stock() && ! $product->backorders_allowed() ) {
+		
+			// Limit our max by the available stock, if stock is lower
+
+			// Set to lessor of stock qty or max allowed
+			$qty = min( $product->stock, $max );
+		
+		}
+
+		return $qty;
+
 	}
-	add_filter( 'woocommerce_quantity_input_args', 'isa_wc_max_qty_set_input_args', 10, 2 );
+	add_filter( 'woocommerce_quantity_input_max', 'isa_wc_max_qty_set_input_max', 10, 2 );
 
 	/**
 	 * For Variable Products, enforce max quantity on the quantity input field on the add to cart forms 
@@ -90,11 +102,24 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		if ( is_admin() ) {
 			return $qty;
 		}
+
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
 		if ( ! empty( $max ) ) {
-			$qty = $max;
+
+			$new_qty = $max;
+
+			if ( $variation->managing_stock() && ! $variation->backorders_allowed() ) {
+
+				// Limit our max by the available stock, if stock is lower
+
+				// Set to lessor of stock qty or max allowed
+				$new_qty = min( $qty, $max );
+
+			}
+
 		}
-		return $qty;
+			
+		return $new_qty;
 	}
 
 	/**
@@ -102,24 +127,26 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	 * on add to cart forms for Variable Products.
 	 * @since 1.4
 	 */
-	add_filter( 'woocommerce_variation_get_stock_quantity', 'isa_wc_max_qty_variation_input_qty_max', 10, 2);
+	add_filter( 'woocommerce_variation_get_stock_quantity', 'isa_wc_max_qty_variation_input_qty_max', 10, 2 );
 
 	/**
 	* Find out how many of this product are already in the cart
-	* @param mixed $the_id of the product in question
+	*
+	* @param mixed $product_id ID of the product in question
 	* @param string $cart_item_key The cart key for this item in case of Updating cart
+	*
 	* @return integer $running_qty The total quantity of this item, parent item in case of variations, in cart
 	* @since 1.1.6
 	*/
 
-	function isa_wc_max_qty_get_cart_qty( $the_id, $cart_item_key = '' ) {
+	function isa_wc_max_qty_get_cart_qty( $product_id, $cart_item_key = '' ) {
 		global $woocommerce;
-		$running_qty = 0;
+		$running_qty = 0;// Keep a running total to count variations
 
 		// search the cart for the product in question
 		foreach($woocommerce->cart->get_cart() as $other_cart_item_keys => $values ) {
 
-			if ( $the_id == $values['product_id'] ) {
+			if ( $product_id == $values['product_id'] ) {
 
 				/*
 				 * In case of updating the cart quantity, don't count this cart item key
