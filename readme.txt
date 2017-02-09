@@ -60,6 +60,19 @@ Yes, since version 1.4.
 
 == Changelog ==
 
+= 1.4 =
+* New - Support for different limits for individual products. See the version 1.4 release post for details: https://isabelcastillo.com/woocommerce-max-quantity-1-4
+* New - Support for Variable products (products with variations). Now, the plugin works with all products, Simple and Variable.
+* Code refactoring - Many functions were renamed:
+`isa_get_qty_alread_in_cart' was changed to 'isa_wc_max_qty_get_cart_qty`
+`isa_max_item_quantity_validation' was changed to 'isa_wc_max_qty_add_to_cart_validation`
+`add_isa_max_quantity_options' was changed to 'isa_wc_max_qty_options`
+`isa_woo_max_qty_load_textdomain' was changed to 'isa_wc_max_qty_load_textdomain`
+`isa_woo_max_qty_update_cart_validation' was changed to 'isa_wc_max_qty_update_cart_validation`
+`isa_woocommerce_quantity_input_args' was changed to 'isa_wc_max_qty_input_args`
+* Code refactoring - One function was removed:
+`isa_woocommerce_available_variation`, which was hooked to `woocommerce_available_variation`, was removed.
+
 = 1.3 =
 * New - Added compatibility with the WooCommerce Direct Checkout plugin
 
@@ -118,6 +131,9 @@ Yes, since version 1.4.
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.4 =
+NEW- set different limits for individual products. NEW- now works with Variable products (products with variations).
 
 = 1.3 =
 Added compatibility with the WooCommerce Direct Checkout plugin
