@@ -2,15 +2,15 @@
 /*
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
-Description: Set a limit for the max quantity of products that can be added to cart. Does not require customers to log in.
-Version: 1.4-alpha-3
+Description: Set a limit for the max quantity of products that can be added to cart, per product. Now with individual product limits.
+Version: 1.4-alpha-4
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
 Text Domain: woocommerce-max-quantity
 Domain Path: languages
 
-Copyright 2013 - 2017 Isabel Castillo
+Copyright 2013-2017 Isabel Castillo
 
 This file is part of WooCommerce Max Quantity plugin.
 
@@ -41,7 +41,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	}
 	add_action( 'plugins_loaded', 'isa_wc_max_qty_load_textdomain' );
 
-	/*
+	/**
 	* Add the option to WooCommerce products tab
 	*/
 	function isa_wc_max_qty_options( $settings ) {
@@ -52,13 +52,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		       isset( $section['type'] ) && 'sectionend' == $section['type'] ) {
 					$updated_settings[] = array(
 					    'name'     => __( 'Maximum Quantity Limit Per Product', 'woocommerce-max-quantity' ),
-					    'desc_tip'     => __( 'Set a limit for the maximum quantity, per product, that can be added to the shopping cart. Enter a number, 1 or greater.', 'woocommerce-max-quantity' ),
+					    'desc_tip'     => __( 'This is the universal max quantity limit that can be added to the cart, per each product. To override this for a product, edit the product, see the Inventory tab in the Product Data box, and enter a number for "Max Quantity Per Order"', 'woocommerce-max-quantity' ),
 					    'id'       => 'isa_woocommerce_max_qty_limit',
 					    'css'      => 'width:50px;',
 					    'std'      => '', // WooCommerce < 2.0
 					    'default'  => '', // WooCommerce >= 2.0
 					    'type'     => 'text',
-					    'desc' =>  __( 'Max quantity, per product, that can be added to the shopping cart. Enter a number, 1 or greater.', 'woocommerce-max-quantity' ),
+					    'desc' =>  __( 'Max quantity that can be added to the cart, per product. This is universal, meaning that it will affect all products. Enter a number, 1 or greater. (Products can override this from their inventory tab.)', 'woocommerce-max-quantity' ),
 				);
 			}
 			$updated_settings[] = $section;
@@ -68,33 +68,66 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	add_filter( 'woocommerce_inventory_settings', 'isa_wc_max_qty_options' );
 
 	/**
-	 * For Simple Products, set max value for the quantity input field for add to cart forms
+	 * Get the individual product max limit
+	 * @param int $product_id
+	 * @return int|bool $limit The max limit number for this product, if set, otherwise false
 	 * @since 1.4
 	 */
-	function isa_wc_max_qty_set_input_max( $qty, $product ) {
+	function isa_wc_get_product_max_limit( $product_id ) {
+		$qty = get_post_meta( $product_id, '_isa_wc_max_qty_product_max', true );
+		if ( empty( $qty ) ) {
+			$limit = false;
+		} else {
+			$limit = (int) $qty;
+		}
+		return $limit;
+	}
+
+	/**
+	 * Set the max attribute value for the quantity input field for add to cart forms.
+	 * This applies to Simple product add to cart forms, and ALL (simple and variable) products on the cart page quantity field.
+	 * @return array $args
+	 * @since 1.1.6
+	 */
+	function isa_wc_max_qty_input_args( $args, $product ) {
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
-		if ( empty( $max ) ) {
-			return $qty;
+		$product_max = isa_wc_get_product_max_limit( $product->id );
+
+		// Allow individual product max limit, if set, to override universal max
+
+		if ( ! empty( $max ) ) {
+			$args['max_value'] = ( false !== $product_max ) ? $product_max : $max;
+		} else {
+			// max is empty
+			if ( false !== $product_max ) {
+				$args['max_value'] = $product_max;
+			} else {
+				// neither max is set, so get out
+				return $args;
+			}
 		}
 
-		$qty = $max;
-
 		if ( $product->managing_stock() && ! $product->backorders_allowed() ) {
-		
+			$stock = $product->get_stock_quantity();
+
 			// Limit our max by the available stock, if stock is lower
 
 			// Set to lessor of stock qty or max allowed
-			$qty = min( $product->stock, $max );
+			$args['max_value'] = min( $stock, $args['max_value'] );
 		
 		}
 
-		return $qty;
-
+		return $args;
 	}
-	add_filter( 'woocommerce_quantity_input_max', 'isa_wc_max_qty_set_input_max', 10, 2 );
+	add_filter( 'woocommerce_quantity_input_args', 'isa_wc_max_qty_input_args', 10, 2 );
 
 	/**
-	 * For Variable Products, enforce max quantity on the quantity input field on the add to cart forms 
+	 * For Variable Products, enforce max quantity on the quantity input field on the add to cart forms.
+	 * This only takes effect on the product page quantity field, not on the cart page quantity field.
+	 *
+	 * @param mixed $qty Available stock quantity. Sometimes this is an empty string, i.e. if backorders allowed or if stock is not being managed.
+	 * @param object $variation
+	 * @return int|float|string The max quantity allowed for this variation
 	 * @since 1.4
 	 */
 	function isa_wc_max_qty_variation_input_qty_max( $qty, $variation ) {
@@ -104,27 +137,44 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
+		$product_max = isa_wc_get_product_max_limit( $variation->parent->id );
+
+		// Allow individual product max limit, if set, to override universal max
+
 		if ( ! empty( $max ) ) {
-
-			$new_qty = $max;
-
-			if ( $variation->managing_stock() && ! $variation->backorders_allowed() ) {
-
-				// Limit our max by the available stock, if stock is lower
-
-				// Set to lessor of stock qty or max allowed
-				$new_qty = min( $qty, $max );
-
+			$new_qty = ( false !== $product_max ) ? $product_max : $max;
+		} else {
+			// max is empty
+			if ( false !== $product_max ) {
+				$new_qty = $product_max;
+			} else {
+				// neither max is set, so get out
+				return $qty;
 			}
+		}
+
+
+		if ( $variation->managing_stock() && ! $variation->backorders_allowed() ) {
+
+			// Limit our max by the available stock, if stock is lower
+
+			// Set to lessor of stock qty or max allowed
+			$new_qty = min( $qty, $new_qty );
 
 		}
-			
+
 		return $new_qty;
 	}
 
 	/**
 	 * Filter the variation stock quantity to enforce the max on the quantity input field
-	 * on add to cart forms for Variable Products.
+	 * on add to cart forms for Variable Products. 
+	 * 
+	 * The actual stock quantity in the database is not altered at all.
+	 *
+	 * We've only modified that display of it for the purpose of limiting the the uptick of the input field to not go higher than our max. 
+	 * We did it this way because WC uses the variation stock number to add the "max" attribute to the quantity input field via JavaScript. By manipulating the stock number, we get to add our desired "max" value to the quantity input field.
+	 *
 	 * @since 1.4
 	 */
 	add_filter( 'woocommerce_variation_get_stock_quantity', 'isa_wc_max_qty_variation_input_qty_max', 10, 2 );
@@ -172,9 +222,22 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	* @since 1.1.6
 	*/
 	function isa_wc_max_qty_add_to_cart_validation( $passed, $product_id, $quantity, $variation_id = '', $variations = '' ) {
-		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
-		if ( empty( $max ) ) {
-			return $passed;
+
+		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );// universal max
+		$product_max = isa_wc_get_product_max_limit( $product_id );
+
+		// Allow individual product max limit, if set, to override universal max
+
+		if ( ! empty( $max ) ) {
+			$new_max = ( false !== $product_max ) ? $product_max : $max;
+		} else {
+			// max is empty
+			if ( false !== $product_max ) {
+				$new_max = $product_max;
+			} else {
+				// neither max is set, so get out
+				return $passed;
+			}
 		}
 
 		global $woocommerce;
@@ -183,9 +246,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		$product_title = $product->post->post_title;
 
 		if ( ! empty( $already_in_cart ) ) {
-			// there was already a quantity of this item in cart prior to this addition
-			// Check if the total of already_in_cart + current addition quantity is more than our max
-			if ( ( $already_in_cart + $quantity ) > $max ) {
+			// There was already a quantity of this item in cart prior to this addition.
+			// Check if the total of already_in_cart + current addition quantity is more than our max.
+			if ( ( $already_in_cart + $quantity ) > $new_max ) {
 				// oops. too much.
 				$passed = false;
 
@@ -201,7 +264,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				}
 
 				wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s. You already have %4$s.', 'woocommerce-max-quantity' ), 
-							$max,
+							$new_max,
 							$product_title,
 							'<a href="' . esc_url( $woocommerce->cart->get_cart_url() ) . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>',
 							$already_in_cart ), 'error' );
@@ -210,10 +273,10 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		} else {
 			// none were in cart previously
 			// just in case they manually type in an amount greater than we allow, check the input number here too
-			if ( $quantity > $max ) {
+			if ( $quantity > $new_max ) {
 				// oops. too much.
 				wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s.', 'woocommerce-max-quantity' ),
-							$max,
+							$new_max,
 							$product_title,
 							'<a href="' . esc_url( $woocommerce->cart->get_cart_url() ) . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>'), 'error' );
 				$passed = false;
@@ -232,20 +295,31 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	* @since 1.1.9
 	*/
 	function isa_wc_max_qty_update_cart_validation( $passed, $cart_item_key, $values, $quantity ) {
-		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
-		// don't bother if limit is not entered
-		if ( empty( $max ) ) {
-			return $passed;
+		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );// universal max
+		$product_max = isa_wc_get_product_max_limit( $values['product_id'] );
+
+		// Allow individual product max limit, if set, to override universal max
+
+		if ( ! empty( $max ) ) {
+			$new_max = ( false !== $product_max ) ? $product_max : $max;
+		} else {
+			// max is empty
+			if ( false !== $product_max ) {
+				$new_max = $product_max;
+			} else {
+				// neither max is set, so get out
+				return $passed;
+			}
 		}
 
 		global $woocommerce;
 		$product_title = $values['data']->post->post_title;
 		$already_in_cart = isa_wc_max_qty_get_cart_qty( $values['product_id'], $cart_item_key );
 
-		if ( ( $already_in_cart + $quantity ) > $max ) {
+		if ( ( $already_in_cart + $quantity ) > $new_max ) {
 
 			wc_add_notice( sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s.', 'woocommerce-max-quantity' ),
-						$max,
+						$new_max,
 						$product_title,
 						'<a href="' . esc_url( $woocommerce->cart->get_cart_url() ) . '" title="' . __( 'Go to cart', 'woocommerce-max-quantity' ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>'), 'error' );
 			$passed = false;
@@ -253,5 +327,52 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		return $passed;
 	}
 	add_filter( 'woocommerce_update_cart_validation', 'isa_wc_max_qty_update_cart_validation', 1, 4 );
+
+	/**
+	 * Do not show Stock availability for Variable products.
+	 *
+	 * Hide the stock availability only for Variable products since we're temporarily altering the Variation stock number to enforce our max on the quantity input field for variable products.
+	 * @see isa_wc_max_qty_variation_input_qty_max( $qty, $variation )
+	 * @since 1.4
+	 */
+	function isa_wc_max_qty_hide_availability( $html, $availability, $obj ) {
+		if ( 'variation' == $obj->product_type ) {
+			return '<br />';
+		}
+		return $html;
+	}
+	add_filter( 'woocommerce_stock_html', 'isa_wc_max_qty_hide_availability', 999, 3 );
+
+	/**
+	 * Display the product's "Max Quantity Per Perchase" field in the Product Data metabox
+	 * @since 1.4
+	 */
+	function isa_wc_max_qty_add_product_field() {
+		echo '<div class="options_group">';
+		woocommerce_wp_text_input( 
+			array( 
+				'id'          => '_isa_wc_max_qty_product_max', 
+				'label'       => __( 'Max Quantity Per Order', 'woocommerce-max-quantity' ), 
+				'placeholder' => '',
+				'desc_tip'    => 'true',
+				'description' => __( 'Optional. Set a maximum quantity limit allowed per order. Enter a number, 1 or greater.', 'woocommerce-max-quantity' ) 
+			)
+		);
+		echo '</div>';
+	}
+	add_action( 'woocommerce_product_options_inventory_product_data', 'isa_wc_max_qty_add_product_field' );
+
+	/**
+	 * Save product's Max Quantity field
+	 * @since 1.4
+	 */
+	function isa_wc_max_qty_save_product_field( $post_id ) {
+		$val = trim( get_post_meta( $post_id, '_isa_wc_max_qty_product_max', true ) );
+		$new = sanitize_text_field( $_POST['_isa_wc_max_qty_product_max'] );
+		if ( $val != $new ) {
+			update_post_meta( $post_id, '_isa_wc_max_qty_product_max', $new );
+		}
+	}
+	add_action( 'woocommerce_process_product_meta', 'isa_wc_max_qty_save_product_field' );	
 
 }
