@@ -91,7 +91,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	 */
 	function isa_wc_max_qty_input_args( $args, $product ) {
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
-		$product_max = isa_wc_get_product_max_limit( $product->id );
+		$product_max = isa_wc_get_product_max_limit( $product->get_id() );
 
 		// Allow individual product max limit, if set, to override universal max
 
