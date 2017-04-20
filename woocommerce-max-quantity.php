@@ -336,7 +336,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	 * @since 1.4
 	 */
 	function isa_wc_max_qty_hide_availability( $html, $availability, $obj ) {
-		if ( 'variation' == $obj->product_type ) {
+		if ( 'variation' == $obj['product_type'] ) {
 			return '<br />';
 		}
 		return $html;
