@@ -341,7 +341,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 		return $html;
 	}
-	add_filter( 'woocommerce_stock_html', 'isa_wc_max_qty_hide_availability', 999, 3 );
+	add_filter( 'woocommerce_get_stock_html', 'isa_wc_max_qty_hide_availability', 999, 3 );
 
 	/**
 	 * Display the product's "Max Quantity Per Perchase" field in the Product Data metabox
