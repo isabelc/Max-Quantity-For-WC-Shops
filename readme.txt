@@ -62,7 +62,7 @@ Yes, since version 1.4.
 
 = 1.4.1 =
 * New - For variable products, the stock quantity display has been restored. Previously, the stock quantity was hidden for products with variations. This only affected those who were displaying the stock quantity on the product page.
-* Fixed several PHP notices.
+* Fixed several PHP notices. Thanks to @brettmhoffman.
 * Internationalization - load_plugin_textdomain is now loaded on init rather than plugins_loaded, as it should be.
 
 = 1.4 =
