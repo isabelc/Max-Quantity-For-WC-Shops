@@ -1,10 +1,10 @@
 ﻿=== WooCommerce Max Quantity ===
 Contributors: isabel104
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=me%40isabelcastillo%2ecom
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R7BHLMCQ437SS
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, order limit
 Requires at least: 3.8
-Tested up to: 4.7.2
-Stable tag: 1.4
+Tested up to: 4.8-alpha-40556
+Stable tag: 1.4.1
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,11 @@ Yes, since version 1.4.
 2. An individual product’s “Max Quantity Per Order” setting. It is found on the individual product page, in the Product Data box, on the Inventory tab.
 
 == Changelog ==
+
+= 1.4.1 =
+* New - For variable products, the stock quantity display has been restored. Previously, the stock quantity was hidden for products with variations. This only affected those who were displaying the stock quantity on the product page.
+* Fixed several PHP notices.
+* Internationalization - load_plugin_textdomain is now loaded on init rather than plugins_loaded, as it should be.
 
 = 1.4 =
 * New - Support for different limits for individual products. See the version 1.4 release post for details: https://isabelcastillo.com/woocommerce-max-quantity-1-4
