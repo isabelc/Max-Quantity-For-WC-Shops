@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart, per product. Now with individual product limits.
-Version: 1.4
+Version: 1.4.1.alpha.1
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -91,7 +91,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	 */
 	function isa_wc_max_qty_input_args( $args, $product ) {
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
-		$product_max = isa_wc_get_product_max_limit( $product->id );
+		$product_max = isa_wc_get_product_max_limit( $product->get_id() );
 
 		// Allow individual product max limit, if set, to override universal max
 
@@ -137,7 +137,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
-		$product_max = isa_wc_get_product_max_limit( $variation->parent->id );
+		$product_max = isa_wc_get_product_max_limit( $variation->get_parent_id() );
 
 		// Allow individual product max limit, if set, to override universal max
 
@@ -178,6 +178,27 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	 * @since 1.4
 	 */
 	add_filter( 'woocommerce_variation_get_stock_quantity', 'isa_wc_max_qty_variation_input_qty_max', 10, 2 );
+
+	/**
+	 * Restore the correct variation stock quantity. This is necessary because
+	 * we altered the variation stock quantity temporarily in order to enforce
+	 * a max limit on the quantity input field on add to cart.
+	 *
+	 * @since 1.4.1
+	 */
+	function isa_wc_max_qty_restore_stock_qty( $availability, $variation ) {
+		$variation_data = $variation->get_data();
+    	if ( empty( $variation_data->manage_stock ) ) {
+    		$parent = $variation->get_parent_data();
+    		if ( 'yes' == $parent['manage_stock'] ) {
+    			$availability = $parent['stock_quantity'];
+    		}
+    	} else {
+    		$availability = $variation_data['stock_quantity'];
+    	}
+		return $availability;
+	}
+	add_filter( 'woocommerce_get_availability_text' ,'isa_wc_max_qty_restore_stock_qty', 10, 2 );
 
 	/**
 	* Find out how many of this product are already in the cart
@@ -327,21 +348,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		return $passed;
 	}
 	add_filter( 'woocommerce_update_cart_validation', 'isa_wc_max_qty_update_cart_validation', 1, 4 );
-
-	/**
-	 * Do not show Stock availability for Variable products.
-	 *
-	 * Hide the stock availability only for Variable products since we're temporarily altering the Variation stock number to enforce our max on the quantity input field for variable products.
-	 * @see isa_wc_max_qty_variation_input_qty_max( $qty, $variation )
-	 * @since 1.4
-	 */
-	function isa_wc_max_qty_hide_availability( $html, $availability, $obj ) {
-		if ( 'variation' == $obj->product_type ) {
-			return '<br />';
-		}
-		return $html;
-	}
-	add_filter( 'woocommerce_stock_html', 'isa_wc_max_qty_hide_availability', 999, 3 );
 
 	/**
 	 * Display the product's "Max Quantity Per Perchase" field in the Product Data metabox
