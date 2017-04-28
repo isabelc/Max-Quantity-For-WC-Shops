@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart, per product. Now with individual product limits.
-Version: 1.4.1
+Version: 1.4.2
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -187,15 +187,20 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	 * @since 1.4.1
 	 */
 	function isa_wc_max_qty_restore_stock_qty( $availability, $variation ) {
-		$variation_data = $variation->get_data();
-    	if ( empty( $variation_data->manage_stock ) ) {
-    		$parent = $variation->get_parent_data();
-    		if ( 'yes' == $parent['manage_stock'] ) {
-    			$availability = $parent['stock_quantity'];
-    		}
-    	} else {
-    		$availability = $variation_data['stock_quantity'];
-    	}
+		// Only need to handle products with variations
+		if ( $variation instanceof WC_Product_Variation ) {
+			// if ( method_exists('Directory','read'))
+			$variation_data = $variation->get_data();
+	    	if ( empty( $variation_data->manage_stock ) ) {
+	    		$parent = $variation->get_parent_data();
+	    		if ( 'yes' == $parent['manage_stock'] ) {
+	    			$availability = $parent['stock_quantity'];
+	    		}
+	    	} else {
+	    		$availability = $variation_data['stock_quantity'];
+	    	}
+
+	    }
 		return $availability;
 	}
 	add_filter( 'woocommerce_get_availability_text' ,'isa_wc_max_qty_restore_stock_qty', 10, 2 );
