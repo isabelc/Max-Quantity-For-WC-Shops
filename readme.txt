@@ -4,13 +4,16 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, order limit
 Requires at least: 3.8
 Tested up to: 4.8-alpha-40556
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Set a limit for the max quantity of products that can be added to cart, per product, per order. Now with individual product limits.
 
 == Description ==
+
+= Requires WooCommerce 3.0 or above. =
+
 WooCommerce Max Quantity is a simple extension for WooCommerce that only does one thing: it lets you set a max limit for the number of items that can be added to the cart, for each product, per order.
 
 It's like one of those signs at the grocery store that says, "LIMIT 2 PER CUSTOMER!" This plugin will not add a sign like that, but the quantity input field (pictured above) will hit a limit.
@@ -59,6 +62,9 @@ Yes, since version 1.4.
 2. An individual product’s “Max Quantity Per Order” setting. It is found on the individual product page, in the Product Data box, on the Inventory tab.
 
 == Changelog ==
+
+= 1.4.3 =
+* Fixed - The max limit also works on Variable Products, as long as backorders are not enabled.
 
 = 1.4.2 =
 * Fixed a fatal error regarding get_parent_data().

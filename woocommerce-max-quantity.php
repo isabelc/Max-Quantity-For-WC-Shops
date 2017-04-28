@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart, per product. Now with individual product limits.
-Version: 1.4.2
+Version: 1.4.3
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -172,12 +172,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	 * 
 	 * The actual stock quantity in the database is not altered at all.
 	 *
-	 * We've only modified that display of it for the purpose of limiting the the uptick of the input field to not go higher than our max. 
+	 * We've only modified this for the purpose of limiting the the uptick of the input field to not go higher than our max. 
 	 * We did it this way because WC uses the variation stock number to add the "max" attribute to the quantity input field via JavaScript. By manipulating the stock number, we get to add our desired "max" value to the quantity input field.
 	 *
-	 * @since 1.4
+	 * @since 1.4.3
 	 */
-	add_filter( 'woocommerce_variation_get_stock_quantity', 'isa_wc_max_qty_variation_input_qty_max', 10, 2 );
+	add_filter( 'woocommerce_product_variation_get_stock_quantity', 'isa_wc_max_qty_variation_input_qty_max', 10, 2 );
 
 	/**
 	 * Restore the correct variation stock quantity. This is necessary because
