@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart, per product. Now with individual product limits.
-Version: 1.5-alpha-3
+Version: 1.5-alpha-4
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -277,7 +277,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	/**
 	* Validate product quantity when cart is UPDATED.
 	*
-	* Just in case they manually type in an amount greater than we allow.
+	* Just in case they manually type in an amount greater than we allow and the HTML5 Constraint validation doesn't work.
 	* @since 1.1.9
 	*/
 	function isa_wc_max_qty_update_cart_validation( $passed, $cart_item_key, $values, $quantity ) {
@@ -298,13 +298,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			}
 		}
 
-		$product_title = $values['data']->post->post_title;
+		$product = wc_get_product( $values['product_id'] );
 		$already_in_cart = isa_wc_max_qty_get_cart_qty( $values['product_id'], $cart_item_key );
 
 		if ( ( $already_in_cart + $quantity ) > $new_max ) {
 			wc_add_notice( apply_filters( 'isa_wc_max_qty_error_message', sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s.', 'woocommerce-max-quantity' ),
 						$new_max,
-						$product_title,
+						$product->get_name(),
 						'<a href="' . esc_url( wc_get_cart_url() ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>'),
 					$new_max ),
 			'error' );
