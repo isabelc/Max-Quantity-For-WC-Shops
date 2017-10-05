@@ -3,8 +3,8 @@ Contributors: isabel104
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R7BHLMCQ437SS
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, order limit
 Requires at least: 3.8
-Tested up to: 4.8-alpha-40556
-Stable tag: 1.4.3
+Tested up to: 4.9
+Stable tag: 1.5
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,9 +18,9 @@ WooCommerce Max Quantity is a simple extension for WooCommerce that only does on
 
 It's like one of those signs at the grocery store that says, "LIMIT 2 PER CUSTOMER!" This plugin will not add a sign like that, but the quantity input field (pictured above) will hit a limit.
 
-You can simply set a universal limit to affect all products in your WooCommerce store. If you prefer, you can set a different limit for each product, individually. Each product's own limit will always override the universal limit. (Support for setting different limits per product was added in WooCommerce Max Quantity version 1.4.)
+You can simply set a universal limit to affect all products in your WooCommerce store. If you prefer, you can set a different limit for each product, individually. Each product's own limit will always override the universal limit.
 
-This works for all products in your WooCommerce store: Simple and Variable products. (Support for products with variations was added in version 1.4.)
+This works for all products in your WooCommerce store: Simple and Variable products. 
 
 Customers do not have to be logged in for this to work. This works for guest buyers, as well as logged-in buyers.
 
@@ -62,6 +62,11 @@ Yes, since version 1.4.
 2. An individual product’s “Max Quantity Per Order” setting. It is found on the individual product page, in the Product Data box, on the Inventory tab.
 
 == Changelog ==
+
+= 1.5 =
+* New - Added filters to the error message strings.
+* Fixed - The max was not being enforced the input field for Variable products.
+* Fixed - The max now works even when backorders are enabled.
 
 = 1.4.3 =
 * Fixed - The max limit also works on Variable Products, as long as backorders are not enabled.
@@ -146,26 +151,5 @@ Yes, since version 1.4.
 
 == Upgrade Notice ==
 
-= 1.4 =
-NEW- set different limits for individual products. NEW- now works with Variable products (products with variations).
-
-= 1.3 =
-Added compatibility with the WooCommerce Direct Checkout plugin
-
-= 1.2.4 =
-The setting had disappeared on last WC update.
-
-= 1.2.3 =
-Added Dutch translation, thanks Martijn Heesters.
-
-= 1.2.2 =
-Added German translation, thanks @tofuSCHNITZEL.
-
-= 1.2.1 =
-Fix - Did not calculate quantity properly if you UPDATE Quantity on Cart page.
-
-= 1.1.9 = 
-Fix: added _update_cart_validation to avoid manual override on cart update at checkout.
-
-= 1.1.8 =
-Fix: they can no longer override limit by manually typing quantity. Other bug also fixed.
+= 1.5 =
+Fixed variations max. New filters for error message. Now works with backorders.
