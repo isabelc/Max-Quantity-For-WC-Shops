@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart, per product. Now with individual product limits.
-Version: 1.4.4-alpha-3
+Version: 1.5-alpha-3
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -84,14 +84,15 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	}
 
 	/**
-	 * Set the max attribute value for the quantity input field for add to cart forms.
-	 * This applies to Simple product add to cart forms, and ALL (simple and variable) products on the cart page quantity field.
+	 * Set the max attribute value for the quantity input field for Add to cart forms.
+	 * This applies to Simple product Add To Cart forms, and ALL (simple and variable) products on the Cart page quantity field.
 	 * @return array $args
 	 * @since 1.1.6
 	 */
 	function isa_wc_max_qty_input_args( $args, $product ) {
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
-		$product_max = isa_wc_get_product_max_limit( $product->get_id() );
+		$product_id = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
+		$product_max = isa_wc_get_product_max_limit( $product_id );
 
 		// Allow individual product max limit, if set, to override universal max
 
@@ -122,18 +123,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	add_filter( 'woocommerce_quantity_input_args', 'isa_wc_max_qty_input_args', 10, 2 );
 
 	/**
-	 * For Variable Products, enforce max quantity on the quantity input field on the add to cart forms.
-	 * This only takes effect on the product page quantity field, not on the cart page quantity field.
-	 *
-	 * @param mixed $qty Available stock quantity. Sometimes this is an empty string, i.e. if backorders allowed or if stock is not being managed.
-	 * @param object $variation
-	 * @return int|float|string The max quantity allowed for this variation
-	 * @since 1.4
-	 */
-	function isa_wc_max_qty_variation_input_qty_max( $qty, $variation ) {
-		// Do not affect the actual variation stock quantity on the admin side
+	 * Filter the available variation to enforce the max on the quantity input field
+	 * on Add to cart forms for Variable Products. 
+	 */	
+	add_filter( 'woocommerce_available_variation', 'isa_wc_max_qty_variation_input_qty_max', 10, 3 );
+	function isa_wc_max_qty_variation_input_qty_max( $args, $product, $variation ) {
 		if ( is_admin() ) {
-			return $qty;
+			return $args;
 		}
 
 		$max = (int) get_option( 'isa_woocommerce_max_qty_limit' );
@@ -142,68 +138,28 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		// Allow individual product max limit, if set, to override universal max
 
 		if ( ! empty( $max ) ) {
-			$new_qty = ( false !== $product_max ) ? $product_max : $max;
+			$args['max_qty'] = ( false !== $product_max ) ? $product_max : $max;
 		} else {
 			// max is empty
 			if ( false !== $product_max ) {
-				$new_qty = $product_max;
+				$args['max_qty'] = $product_max;
 			} else {
 				// neither max is set, so get out
-				return $qty;
+				return $args;
 			}
 		}
-
 
 		if ( $variation->managing_stock() && ! $variation->backorders_allowed() ) {
 
 			// Limit our max by the available stock, if stock is lower
 
 			// Set to lessor of stock qty or max allowed
-			$new_qty = min( $qty, $new_qty );
+			$args['max_qty'] = min( $qty, $args['max_qty'] );
 
 		}
 
-		return $new_qty;
+		return $args;
 	}
-
-	/**
-	 * Filter the variation stock quantity to enforce the max on the quantity input field
-	 * on add to cart forms for Variable Products. 
-	 * 
-	 * The actual stock quantity in the database is not altered at all.
-	 *
-	 * We've only modified this for the purpose of limiting the the uptick of the input field to not go higher than our max. 
-	 * We did it this way because WC uses the variation stock number to add the "max" attribute to the quantity input field via JavaScript. By manipulating the stock number, we get to add our desired "max" value to the quantity input field.
-	 *
-	 * @since 1.4.3
-	 */
-	add_filter( 'woocommerce_product_variation_get_stock_quantity', 'isa_wc_max_qty_variation_input_qty_max', 10, 2 );
-
-	/**
-	 * Restore the correct variation stock quantity. This is necessary because
-	 * we altered the variation stock quantity temporarily in order to enforce
-	 * a max limit on the quantity input field on add to cart.
-	 *
-	 * @since 1.4.1
-	 */
-	function isa_wc_max_qty_restore_stock_qty( $availability, $variation ) {
-		// Only need to handle products with variations
-		if ( $variation instanceof WC_Product_Variation ) {
-			// if ( method_exists('Directory','read'))
-			$variation_data = $variation->get_data();
-	    	if ( empty( $variation_data->manage_stock ) ) {
-	    		$parent = $variation->get_parent_data();
-	    		if ( 'yes' == $parent['manage_stock'] ) {
-	    			$availability = $parent['stock_quantity'];
-	    		}
-	    	} else {
-	    		$availability = $variation_data['stock_quantity'];
-	    	}
-
-	    }
-		return $availability;
-	}
-	add_filter( 'woocommerce_get_availability_text' ,'isa_wc_max_qty_restore_stock_qty', 10, 2 );
 
 	/**
 	* Find out how many of this product are already in the cart
