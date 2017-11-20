@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Max Quantity
 Plugin URI: https://isabelcastillo.com/free-plugins/woocommerce-max-quantity
 Description: Set a limit for the max quantity of products that can be added to cart, per product. Now with individual product limits.
-Version: 1.5
+Version: 1.5.1-beta-1
 Author: Isabel Castillo
 Author URI: https://isabelcastillo.com
 License: GPL2
@@ -76,7 +76,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	function isa_wc_get_product_max_limit( $product_id ) {
 		$qty = get_post_meta( $product_id, '_isa_wc_max_qty_product_max', true );
 		if ( empty( $qty ) ) {
-			$limit = false;
+			// honor the Sold individually setting
+			$product = wc_get_product( $product_id );
+			$limit = $product->is_sold_individually() ? 1 : false;
 		} else {
 			$limit = (int) $qty;
 		}
