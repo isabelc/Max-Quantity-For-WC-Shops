@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: woocommerce, max quantity, cart maximum, max purchase, cart max, order limit
 Requires at least: 3.8
 Tested up to: 4.9
-Stable tag: 1.5
+Stable tag: 1.5.1
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,11 @@ See the [setup instructions and documentation](https://isabelcastillo.com/docs/w
 
 **Languages**
 Includes `.mo` and `.po` translations for Dutch (thanks to Martijn Heesters), French, German (thanks @tofuSCHNITZEL), Hindi, and Spanish languages. Also includes a `.pot` file to make more translations.
+
+**Disclaimer**
+
+I am not affiliated with WooCommerce, WooThemes, or Automattic. I provide this plugin as a free service to the WP community (originally created for my own personal use).
+
 
 == Installation ==
 
@@ -62,6 +67,9 @@ Yes, since version 1.4.
 2. An individual product’s “Max Quantity Per Order” setting. It is found on the individual product page, in the Product Data box, on the Inventory tab.
 
 == Changelog ==
+
+= 1.5.1 =
+* Fixed - Honor the "Sold individually" setting above the universal max limit.
 
 = 1.5 =
 * New - Added filters to the error message strings.
@@ -150,6 +158,10 @@ Yes, since version 1.4.
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.5.1 =
+Fixed - Honor the "Sold individually" setting above the universal max limit.
+
 
 = 1.5 =
 Fixed variations max. New filters for error message. Now works with backorders.
