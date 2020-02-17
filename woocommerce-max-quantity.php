@@ -119,7 +119,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 			// Set to lessor of stock qty or max allowed
 			$args['max_value'] = min( $stock, $args['max_value'] );
-		
+
 		}
 
 		return $args;
@@ -128,8 +128,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 	/**
 	 * Filter the available variation to enforce the max on the quantity input field
-	 * on Add to cart forms for Variable Products. 
-	 */	
+	 * on Add to cart forms for Variable Products.
+	 */
 	add_filter( 'woocommerce_available_variation', 'isa_wc_max_qty_variation_input_qty_max', 10, 3 );
 	function isa_wc_max_qty_variation_input_qty_max( $args, $product, $variation ) {
 		if ( is_admin() ) {
@@ -154,11 +154,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 
 		if ( $variation->managing_stock() && ! $variation->backorders_allowed() ) {
+			$stock = $variation->get_stock_quantity();
 
 			// Limit our max by the available stock, if stock is lower
 
 			// Set to lessor of stock qty or max allowed
-			$args['max_qty'] = min( $max, $args['max_qty'] );
+			$args['max_qty'] = min( $stock, $args['max_qty'] );
 
 		}
 
@@ -188,13 +189,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 * In case of updating the cart quantity, don't count this cart item key
 				otherwise they won't be able to REDUCE the number of items in cart becuase it will think it is adding the new quantity on top of the existing quantity, when in fact it is reducing the existing quantity to the new quantity.
 				 */
-				
+
 				if ( $cart_item_key == $other_cart_item_keys ) {
 					continue;
 				}
 
 				// Add that quantity to our running total qty for this product
-				$running_qty += (int) $values['quantity'];			
+				$running_qty += (int) $values['quantity'];
 
 			}
 
@@ -229,7 +230,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		$already_in_cart = isa_wc_max_qty_get_cart_qty( $product_id );
 		$product = wc_get_product( $product_id );
 		$product_title = $product->get_title();
-		
+
 		if ( ! empty( $already_in_cart ) ) {
 			// There was already a quantity of this item in cart prior to this addition.
 			// Check if the total of already_in_cart + current addition quantity is more than our max.
@@ -248,7 +249,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					}
 				}
 
-				wc_add_notice( apply_filters( 'isa_wc_max_qty_error_message_already_had', sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s. You already have %4$s.', 'woocommerce-max-quantity' ), 
+				wc_add_notice( apply_filters( 'isa_wc_max_qty_error_message_already_had', sprintf( __( 'You can add a maximum of %1$s %2$s\'s to %3$s. You already have %4$s.', 'woocommerce-max-quantity' ),
 							$new_max,
 							$product_title,
 							'<a href="' . esc_url( wc_get_cart_url() ) . '">' . __( 'your cart', 'woocommerce-max-quantity' ) . '</a>',
@@ -324,13 +325,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	 */
 	function isa_wc_max_qty_add_product_field() {
 		echo '<div class="options_group">';
-		woocommerce_wp_text_input( 
-			array( 
-				'id'          => '_isa_wc_max_qty_product_max', 
-				'label'       => __( 'Max Quantity Per Order', 'woocommerce-max-quantity' ), 
+		woocommerce_wp_text_input(
+			array(
+				'id'          => '_isa_wc_max_qty_product_max',
+				'label'       => __( 'Max Quantity Per Order', 'woocommerce-max-quantity' ),
 				'placeholder' => '',
 				'desc_tip'    => 'true',
-				'description' => __( 'Optional. Set a maximum quantity limit allowed per order. Enter a number, 1 or greater.', 'woocommerce-max-quantity' ) 
+				'description' => __( 'Optional. Set a maximum quantity limit allowed per order. Enter a number, 1 or greater.', 'woocommerce-max-quantity' )
 			)
 		);
 		echo '</div>';
@@ -348,6 +349,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 			update_post_meta( $post_id, '_isa_wc_max_qty_product_max', $new );
 		}
 	}
-	add_action( 'woocommerce_process_product_meta', 'isa_wc_max_qty_save_product_field' );	
+	add_action( 'woocommerce_process_product_meta', 'isa_wc_max_qty_save_product_field' );
 
 }
