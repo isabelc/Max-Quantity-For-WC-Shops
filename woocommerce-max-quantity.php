@@ -154,11 +154,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 
 		if ( $variation->managing_stock() && ! $variation->backorders_allowed() ) {
+			$stock = $variation->get_stock_quantity();
 
 			// Limit our max by the available stock, if stock is lower
 
 			// Set to lessor of stock qty or max allowed
-			$args['max_qty'] = min( $max, $args['max_qty'] );
+			$args['max_qty'] = min( $stock, $args['max_qty'] );
 
 		}
 
