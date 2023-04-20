@@ -1,10 +1,9 @@
-﻿=== WooCommerce Max Quantity ===
+﻿=== Max Quantity For WC Shops ===
 Contributors: isabel104
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R7BHLMCQ437SS
 Tags: woocommerce, max quantity, cart maximum, max, cart max, order limit
 Requires at least: 3.8
-Tested up to: 5.3.2
-Stable tag: 1.5.2
+Tested up to: 6.2
+Stable tag: 1.6
 License: GNU Version 2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +13,7 @@ Set a limit for the max quantity of products that can be added to cart, per prod
 
 = Requires WooCommerce 3.0 or above. =
 
-WooCommerce Max Quantity is a simple extension for WooCommerce that only does one thing: it lets you set a max limit for the number of items that can be added to the cart, for each product, per order.
+Max Quantity For WC Shops is a simple extension for WooCommerce that only does one thing: it lets you set a max limit for the number of items that can be added to the cart, for each product, per order.
 
 It's like one of those signs at the grocery store that says, "LIMIT 2 PER CUSTOMER!" This plugin will not add a sign like that, but the quantity input field (pictured above) will hit a limit.
 
@@ -23,11 +22,6 @@ You can simply set a universal limit to affect all products in your WooCommerce 
 This works for all products in your WooCommerce store: Simple and Variable products. 
 
 Customers do not have to be logged in for this to work. This works for guest buyers, as well as logged-in buyers.
-
-See the [setup instructions and documentation](https://isabelcastillo.com/docs/woocommerce-max-quantity-documentation).
-
-**Languages**
-Includes `.mo` and `.po` translations for Dutch (thanks to Martijn Heesters), French, German (thanks @tofuSCHNITZEL), Hindi, and Spanish languages. Also includes a `.pot` file to make more translations.
 
 **Disclaimer**
 
@@ -39,13 +33,13 @@ I am not affiliated with WooCommerce, WooThemes, or Automattic. I provide this p
 **Install and Activate**
 
 1. In your WordPress dashboard, go to Plugins –> Add New.
-2. Search for "WooCommerce Max Quantity" to find the plugin.
-3. When you see "WooCommerce Max Quantity", click "Install Now" to install the plugin.
+2. Search for "Max Quantity For WC Shops" to find the plugin.
+3. When you see "Max Quantity For WC Shops", click "Install Now" to install the plugin.
 4. Click "Activate" to activate the plugin.
 
 **Configure**
 
-The plugin only has 2 settings. You can use these settings in a variety of ways to accomplish the unique goals of your store. See [the documentation](https://isabelcastillo.com/docs/woocommerce-max-quantity-documentation) for specific ways to use these settings:
+The plugin only has 2 settings. You can use these settings in a variety of ways to accomplish the unique goals of your store. See the documentation for specific ways to use these settings:
 
 1. To set a universal limit to affect all products, go to WooCommerce -> Settings -> Products tab. Click "Inventory". Scroll down to "Maximum Quantity Limit Per Product". Set your desired limit there.
 2. To set an individual product limit for a single product, go the product's own "Edit product" page. Scroll down to the "Product Data" box. Click on the Inventory tab. There, you’ll see the setting called, "Max Quantity Per Order." Set your desired max limit for that product, there. 
@@ -67,6 +61,9 @@ Yes, since version 1.4.
 2. An individual product’s “Max Quantity Per Order” setting. It is found on the individual product page, in the Product Data box, on the Inventory tab.
 
 == Changelog ==
+
+= 1.6 = 
+* Fixed - Can no longer use WC's name in plugin.
 
 = 1.5.2 = 
 * Fixed - Fixed a bug that was ignoring the max on some Variable Products.
@@ -91,7 +88,7 @@ Yes, since version 1.4.
 * Internationalization - load_plugin_textdomain is now loaded on init rather than plugins_loaded, as it should be.
 
 = 1.4 =
-* New - Support for different limits for individual products. See the version 1.4 release post for details: https://isabelcastillo.com/woocommerce-max-quantity-1-4
+* New - Support for different limits for individual products. See the version 1.4 release post for details.
 * New - Support for Variable products (products with variations). Now, the plugin works with all products, Simple and Variable.
 * Code refactoring - Many functions were renamed:
 `isa_get_qty_alread_in_cart' was changed to 'isa_wc_max_qty_get_cart_qty`

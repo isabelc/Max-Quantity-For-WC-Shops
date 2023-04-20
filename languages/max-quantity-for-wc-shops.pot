@@ -1,0 +1,58 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Max Quantity For WC Shops\n"
+"POT-Creation-Date: 2023-04-20 16:21-0500\n"
+"PO-Revision-Date: 2023-04-20 16:22-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x;esc_attr_e\n"
+
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:43
+msgid "Maximum Quantity Limit Per Product"
+msgstr ""
+
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:44
+msgid ""
+"Set a limit for the maximum quantity, per product, that can be added to the "
+"shopping cart. Enter a number, 1 or greater."
+msgstr ""
+
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:50
+msgid ""
+"Max quantity, per product, that can be added to the shopping cart. Enter a "
+"number, 1 or greater."
+msgstr ""
+
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:147
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:193
+#, php-format
+msgid "You can add a maximum of %1$s %2$s's to %3$s. You already have %4$s."
+msgstr ""
+
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:150
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:163
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:196
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:210
+msgid "Go to cart"
+msgstr ""
+
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:150
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:163
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:196
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:210
+msgid "your cart"
+msgstr ""
+
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:160
+#: /home/isabel/Projects/max-quantity-for-wc-shops/max-quantity-for-wc-shops.php:207
+#, php-format
+msgid "You can add a maximum of %1$s %2$s's to %3$s."
+msgstr ""
